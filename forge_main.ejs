@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Autodesk Forge Tutorial</title>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="https://github.com/Autodesk-Forge/learn.forge.viewmodels/raw/master/img/favicon.ico">
+  <!-- Common packages: jQuery, Bootstrap, jsTree -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+  <!-- Autodesk Forge Viewer files -->
+  <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css" type="text/css">
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+  <!-- this project files -->
+  <link href="css/main.css" rel="stylesheet" />
+  <script src="js/ForgeTree.js"></script>
+  <script src="js/ForgeViewer.js"></script>
+  <script src="js\handleselectionextension.js"></script>
+  
+  <link rel="stylesheet" href="css/search-select.css">
+  <script src="js\search-select.js"></script>
+
+
+  <!-- search -->
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+</head>
+
+<body >
+
+
+<div>
+    <p id="text8585" style="color:purple; 
+        font-weight:bold;font-size:20px;">
+    </p>
+</div>
+<script type="text/javascript" >
+  function Function_luuCVDM()
+  {
+ 
+    //lấy index của công tác đang chọn 
+    var index = document.getElementById("select_cvdm_Name").selectedIndex;
+    let tencongtac = document.getElementById("select_cvdm_Name").options[index].value;
+    let macongviec = document.getElementById("select_cvdm_Code").options[index].value;
+    let unit = document.getElementById("select_cvdm_Unit").options[index].value;
+    alert("số lượng biến công việc định mức",tencongtac); 
+ 
+    var tbodyRef = document.getElementById('table_qto').getElementsByTagName('tbody')[0];
+
+        // Insert a row at the end of table
+        var newRow = tbodyRef.insertRow();
+   
+        // Insert a cell at the end of the row
+       // var newCell = newRow.insertCell();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            cell3.contentEditable=true;
+            var cell4 = newRow.insertCell(3);
+     
+            cell1.innerHTML = macongviec;
+            cell2.innerHTML = tencongtac;
+            cell3.innerHTML = "0.0";
+            cell4.innerHTML = unit;
+        // Append a text node to the cell
+        // var newText = document.createTextNode('new row');
+        // cell1.appendChild(newText);
+        // cell2.appendChild(newText);
+        // cell3.appendChild(newText);
+        // cell4.appendChild(newText);
+
+    
+    
+
+   
+  }
+
+  function Function_XoaCVDM() {
+    document.getElementById("table_qto").deleteRow(0);
+  }
+</script>
+
+<script>
+    function Function_ThaydoichonCVDM_code(){
+      var index= document.getElementById("select_cvdm_Code").selectedIndex ;
+      document.getElementById("select_cvdm_Name").selectedIndex=index;
+       console.log("thay đổi chọn" ,index );
+    }
+</script>
+<script>
+  function Function_ThaydoichonCVDM_Namevi(){
+    var index= document.getElementById("select_cvdm_Name").selectedIndex ;
+      document.getElementById("select_cvdm_Code").selectedIndex=index;
+       console.log("thay đổi chọn" ,index );
+  }
+</script>
+<script type="text/javascript">
+   function Function_LuuDuLieu(){
+    const User = require('../models/User');
+    const name="thanhcong";
+    const email="thanhcong";
+    const password="thanhcong";
+
+    const newUser = new User({
+            name,
+            email,
+            location,
+            password,
+          });
+    newUser.save();
+   }
+</script>
+
+<script type="text/javascript">
+  
+  function function_QuantityTakeoff() {
+       getselectionX();
+        const myTimeout = setTimeout(Laythongtindoituongluachon, 1000);
+
+        ///cài đặt thời gian time out để đảm render form hiển thị sau khi server trả về giá trị
+        function Laythongtindoituongluachon() {
+          var nameX;
+          var VolumeX;
+          var MarkX;
+          var LengthX;
+          var TypeX;
+          var LevelX;
+          var AssblyCodeX;
+          var AssblyNameX;
+          var AreaX;
+          nameX= SelectForge.name;
+          VolumeX = SelectForge.volume;
+          MarkX = SelectForge.mark;
+          LegthX = SelectForge.length;
+          TypeX = SelectForge.type;
+          LevelX = SelectForge.level;
+          AssblyCodeX = SelectForge.assemblycode;
+          AssblyNameX = SelectForge.assemblyname;
+          AreaX = SelectForge.area
+          var str = "Name:" + nameX + "Volume" + VolumeX + "Mark" + MarkX + "Length" + LegthX + "Type" + TypeX + "Uniformat" + AssblyCodeX + "UniformatName" + AssblyNameX + "Area" + AreaX;
+          // document.getElementById('text8585').innerHTML = str;
+          document.getElementById('id_element').textContent = nameX;
+
+          document.getElementById('id_volume').textContent = VolumeX;
+          document.getElementById('id_mark').textContent = MarkX;
+          document.getElementById('id_type').textContent = TypeX;
+          document.getElementById('id_level').textContent = LevelX;
+          document.getElementById('id_area').textContent = AreaX;
+          document.getElementById('id_asscode').value = AssblyCodeX;
+          document.getElementById('id_assname').value = AssblyNameX;
+        }
+        function StopLaythongtindoituongluachon() {
+          clearTimeout(myTimeout);
+        }
+            console.log('chen ten thanh cong');
+         
+    }
+</script>
+  <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+  <!-- Button trigger modal -->
+  <button  onclick="function_QuantityTakeoff()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="float: right;">
+    Quantity Take-off
+  </button>
+
+  <a href="./public/BangKhoiLuong.html" class="btn btn-success" role="button" aria-pressed="true">Xuất bảng khối lượng</a>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bóc tách khối lượng</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-body">
+                <!-- body -->
+                <form>
+                  <div class="form-group">
+                     <h6 id="id_element" class="modal-title">ID:4454545748 - Loại: Structural Column  </h6>
+                    
+                     <label for="exampleInputEmail1">1. Phân loại thành phần công trình theo Uniformat</label>
+                    <div class="form-group mx-sm-3 mb-2">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Mã Uniformat" aria-label="Search" id="id_asscode">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Tên thành phần theo Uniformat" aria-label="Search" id="id_assname">
+                      
+                      <small id="emailHelp" class="form-text text-muted"></small>
+                    </div>
+                    <label for="exampleInputEmail1">2. Các khối lượng công tác chính</label>
+                    <div class="form-group mx-sm-5 mb-5">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Thể tích: </label>
+
+                      <h5 id="id_volume" class="modal-title">0</h5>
+                    </div>
+                    <div class="form-group mx-sm-5 mb-5">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Mark: </label>
+                      <h5 id="id_mark" class="modal-title">0</h5>
+                    </div>  
+                    <br></br>
+                    <div class="form-group mx-sm-5 mb-5">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Type: </label>
+                      <h5 id="id_type" class="modal-title">0</h5>
+                    </div>
+                    <div class="form-group mx-sm-5 mb-5">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Level: </label>
+                      <h5 id="id_level" class="modal-title">0</h5>
+                    </div>
+                    <div class="form-group mx-sm-5 mb-5">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Area: </label>
+                      <h5 id="id_area" class="modal-title">0</h5>
+                    </div>
+                    <br></br>
+                    
+                    <label for="exampleInputEmail1">3. Gán công tác cho đối tượng BIM</label>
+                    <div class="form-group mx-sm-3 mb-2">
+                     
+
+                      <select onchange="Function_ThaydoichonCVDM_Namevi()"  id="select_cvdm_Name"  class="selectpicker border rounded"  data-width="100%"  data-live-search="true">
+                        <% cvdms.forEach(function(cvdm) { %>
+                          <option > <%=cvdm.NameVie  %> </option>
+                         
+                       <% }); %>
+                      </select>
+                      <br></br>
+                      <select onchange="Function_ThaydoichonCVDM_code()" id="select_cvdm_Code" class="selectpicker" data-live-search="true">
+                        <% cvdms.forEach(function(cvdm) { %>
+                          <option> <%=cvdm.Code  %> </option>
+                         
+                       <% }); %>
+                      </select>
+
+                       <select onchange="Function_ThaydoichonCVDM_Unit()"  id="select_cvdm_Unit" class="selectpicker" data-live-search="true">
+                        <% cvdms.forEach(function(cvdm) { %>
+                          <option > <%=cvdm.Unit  %> </option>
+                         
+                       <% }); %>
+                      </select>
+                      
+                      <small id="emailHelp" class="form-text text-muted"></small>
+                      <br></br>
+                      
+                      <button onclick="Function_luuCVDM()"  type="button" class="btn btn-success">Thêm </button>
+                      <button onclick="Function_XoaCVDM()"  type="button" class="btn btn-warning">Xóa</button>
+                    </div>
+                  </div>
+                 
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">4. Bảng bóc tách khối lượng</label>
+                    <table id="table_qto" class="table">
+                      <thead class="thead-dark">
+                        <tr>
+                          <!-- <th scope="col">#</th> -->
+                          <th scope="col">Mã CVDM</th>
+                          <th scope="col">Công việc</th>
+                          <th scope="col">Khối lượng</th>
+                          <th scope="col">Đơn vị tính</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- <% for(var i = 0; i < cvdms.length; i++) { %>
+                          <tr>
+                              <td><%= i + 1 %></td>
+                              <td><%= cvdms[i].Code %></td>
+                              <td><%= cvdms[i].NameVie %></td>
+                              <td contenteditable='true' ><%= cvdms[i].gender %></td>
+                              <td><%= cvdms[i].status %></td>
+                              <td>
+                                  <a href="/update-user?id=<%= cvdms[i]._id%>" class="btn border-shadow update">
+                                      <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+                                  </a>
+                                  <a class="btn border-shadow delete" data-id=<%= cvdms[i]._id%> >
+                                      <span class="text-gradient"><i class="fas fa-times"></i></span>
+                                  </a>
+                              </td>
+                          </tr>
+                        <% } %>             -->
+                      </tbody>
+                    </table>
+                    
+                   
+                  </div>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    
+                  </div>
+                 
+                </form>
+                  
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button  type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+          <button  type="submit" value="fav_HTML" class="btn btn-primary">Lưu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav left">
+        <li>
+          <a href="http://developer.autodesk.com" target="_blank">
+            <img alt="Autodesk Forge" src="//developer.static.autodesk.com/images/logo_forge-2-line.png" height="20">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End of navbar -->
+  <div class="container-fluid fill">
+    <div class="row fill">
+      <div class="col-sm-4 fill">
+        <div class="panel panel-default fill">
+          <div class="panel-heading" data-toggle="tooltip">
+            Buckets &amp; Objects
+            <span id="refreshBuckets" class="glyphicon glyphicon-refresh" style="cursor: pointer"></span>
+            <button class="btn btn-xs btn-info" style="float: right" id="showFormCreateBucket" data-toggle="modal" data-target="#createBucketModal">
+              <span class="glyphicon glyphicon-folder-close"></span> New bucket
+            </button>
+          </div>
+          <div id="appBuckets">
+            tree here
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8 fill">
+        <div id="forgeViewer"></div>
+      </div>
+    </div>
+  </div>
+  <form id="uploadFile" method='post' enctype="multipart/form-data">
+    <input id="hiddenUploadField" type="file" name="theFile" style="visibility:hidden" />
+  </form>
+  <!-- Modal Create Bucket -->
+  <div class="modal fade" id="createBucketModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Create new bucket</h4>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="newBucketKey" class="form-control"> For demonstration purposes, objects (files)
+          are NOT automatically translated. After you upload, right click on
+          the object and select "Translate". Note: Technically your bucket name is required to be globally unique across
+          the entire platform - to keep things simple with this tutorial your client ID will be prepended by default to
+          your bucket name and in turn masked by the UI so you only have to make sure your bucket name is unique within
+          your current Forge app.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="createNewBucket">Go ahead, create the bucket</button>
+        </div>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title">Quantity Take-off</h5>
+        <div>
+    </div>
+  </div>
+  
+    
+</body>
+
+<script language='javascript'>
+  function Active_getselectionX(){
+    var nameX =getselectionX();
+  }
+  </script>
+
+</html>

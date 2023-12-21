@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="https://cdn.autodesk.io/favicon.ico" />
+  <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.css" />
+  <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/extensions/LayerManager/LayerManager.min.js" />
+  <!-- <link rel="stylesheet" href="./global.css" /> -->
+  <link rel="stylesheet" type="text/css" href="/css/w2ui-1.4.min.css" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.1/dist/xlsx.full.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  <script src="/extensions/XLSExtension/contents/ForgeXLS.js"></script>
+  <script type="module" src="/extensions/XLSExtension/contents/main.js"></script>
+  <script src="/extensions/XLSExtension/contents/modeldata.js"></script>
+
+
+
+  <script src="/extensions/XLSExtension/contents/libraries/Blob.js"></script>
+  <script src="/extensions/XLSExtension/contents/libraries/clipboard.min.js"></script>
+  <script src="/extensions/XLSExtension/contents/libraries/FileSaver.min.js"></script>
+  <script src="/extensions/XLSExtension/contents/libraries/notify.min.js"></script>
+  <script src="/extensions/XLSExtension/contents/libraries/xlsx.core.js"></script>
+  <script src="/extensions/XLSExtension/contents/libraries/xlsx.core.min.js"></script>
+
+  <link href="/extensions/XLSExtension/contents/main.css" rel="stylesheet" />
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+  <title> Construction Modal</title>
+
+  <!-- Basic script for this page -->
+
+
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    function getProperty() {
+      var selection = NOP_VIEWER.getSelection();
+      var foundFirstLevel = false;
+      if (selection.length > 0) {
+        var selectedObject = selection[0];
+
+        NOP_VIEWER.getProperties(selectedObject, function (properties) {
+          if (properties) {
+            var objectName = properties.name; // Lấy giá trị của trường "name"
+            console.log("Tên đối tượng là: " + objectName);
+            // Đặt giá trị vào ô name_asset
+            var nameAssetInput = document.getElementById('asset_name');
+            if (nameAssetInput) {
+              nameAssetInput.value = objectName;
+            }
+
+
+            for (var index in properties.properties) {
+              var prop = properties.properties[index];
+              if (prop.displayName === 'Level') {
+                if (!foundFirstLevel) {
+                  foundFirstLevel = true; // Đánh dấu đã tìm thấy kết quả đầu tiên
+                } else {
+                  console.log('Name: ' + prop.displayName + '    Value: ' + prop.displayValue);
+                  // Đặt giá trị vào ô location
+                  var locationInput = document.getElementById('location');
+                  if (locationInput) {
+                    locationInput.value = prop.displayValue;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+  </script>
+  <script>
+    function showSuccessModal() {
+      // Lấy modal thông báo và nút đóng modal
+      var modal = document.getElementById("successModal");
+      var closeBtn = document.getElementById("closeModal");
+
+      // Hiển thị modal
+      modal.style.display = "block";
+
+      // Khi người dùng bấm vào nút đóng modal
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Đóng modal sau 3 giây (hoặc bạn có thể điều chỉnh thời gian theo ý muốn)
+      setTimeout(function () {
+        modal.style.display = "none";
+      }, 3000);
+    }
+  </script>
+
+
+
+  <!-- ---------- -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav left">
+        <li>
+          <a href="http://developer.autodesk.com" target="_blank">
+            <img alt="Autodesk Platform Services" src="https://cdn.autodesk.io/logo/black/stacked.png" height="20">
+          </a>
+
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="/admin/dashboard" target="_blank">
+            <img alt="Autodesk Platform Services" src="/assets/img/logo.png" height="25">
+          </a>
+        </li>
+      </ul>
+
+
+
+    </div>
+  </nav>
+
+  <div class="container-fluid fill">
+    <div class="row fill">
+
+
+      <div class="col-sm-9 fill nopadding">
+
+        <div id="preview"></div>
+
+      </div>
+      <div class="col-sm-3 fill right_panel">
+
+        <div class="panel panel-default fill">
+          <h4 class="panel-heading extensions-heading" data-toggle="tooltip">Suggets</h4>
+
+          <button onclick="getProperty()">Get property</button>
+          <div class="panel-body">
+            <form id="reportForm" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="construction_name">Construction</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="construction_name" id="construction_name" value="Dream House">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="asset_name">Name Asset</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="asset_name" id="asset_name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="location">Location</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control datepicker" name="location" id="location">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="status">Note</label>
+                    <div class="col-sm-7">
+                        <textarea class="form-control" style="height: 100px" name="note" id="note"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="suggest">Suggest</label>
+                    <div class="col-sm-7">
+                        <select class="form-select" aria-label="Default select example" name="suggest" id="suggest">
+                            <option selected>Select</option>
+                            <option value="1">Guarantee</option>
+                            <option value="2">Maintenance</option>
+                            <option value="3">Replace</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="test_day">Test day</label>
+                    <div class="col-sm-7">
+                        <input type="date" class="form-control datepicker" name="test_day" id="test_day">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="time">Time</label>
+                    <div class="col-sm-7">
+                        <input type="time" class="form-control datepicker" name="time" id="time">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="technical_name">Create by</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control datepicker" name="technical_name" id="technical_name" value="Trương Văn Tùng">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button id="submitButton" type="button" class="btn btn-primary" onclick="sendData()">Submit</button>
+                        <a href="#"><button type="button" class="btn btn-default">Cancel</button></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="timeline"></div>
+
+
+
+
+<script>
+        function sendData() {
+            var formData = {
+                construction_name: document.getElementById("construction_name").value,
+                asset_name: document.getElementById("asset_name").value,
+                location: document.getElementById("location").value,
+                note: document.getElementById("note").value,
+                suggest: document.getElementById("suggest").options[document.getElementById("suggest").selectedIndex].text,
+                test_day: document.getElementById("test_day").value,
+                time: document.getElementById("time").value,
+                technical_name: document.getElementById("technical_name").value,
+            };
+
+            axios.post("/projects", formData)
+                .then(function (response) {
+                    console.log(response.data);
+                    alert("Dữ liệu đã được gửi thành công");
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    alert("Đã xảy ra lỗi khi gửi dữ liệu");
+                });
+        }
+    </script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.2.2/browser/pixi.js"></script>
+  <script src="https://unpkg.com/chronos-etu@7.0.0/dist/chronos-etu.js"></script>
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.min.js"></script>
+  <script type="module" src="/index.js"></script>
+  <script type="module" src="/viewer.js"></script>
+
+
+
+  <!-- <script src="/timeline.js"></script>
+  <script src="/viewer.js"></script>
+  <script src="/dataview.js"></script> -->
+
+
+
+  <!-- <script src="js/getProperties.js"></script> -->
+
+</body>
+
+</html>

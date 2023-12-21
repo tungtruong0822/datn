@@ -1,0 +1,46 @@
+﻿html, body{
+  min-height: 100%;
+  height: 100%;
+}
+
+.fill{
+  height: calc(100vh - 100px);
+}
+
+body {
+  padding-top: 60px; /* space for the top nav bar */
+  /* margin-right: 30px; */
+}
+
+#preview, #timeline {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+#preview {
+  top:1em;
+
+  bottom: 60px;
+}
+
+#timeline {
+  bottom: 0;
+  height: 80px;
+
+}
+
+
+/* #timeline {
+  bottom: 0;
+  height: 100px;
+} */
+.nopadding{padding: 0;}
+
+.pl{padding-left: 10px;}
+
+.left_panel{padding: 0 10px;}
+
+.right_panel{padding: 0 10px;}
+
+.bottom_panel{padding: 10px;}
